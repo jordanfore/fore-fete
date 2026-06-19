@@ -1,88 +1,54 @@
 # FORE fête
 
-Interactive guide to Paris Fête de la Musique 2026 - curated for emerging creatives, independent thinkers, and community builders.
+The curated map of Paris Fête de la Musique 2026. 90 parties, one map, no gatekeeping.
 
-## What's Inside
+Built for emerging creatives, independent thinkers and the community. We don't wait fore change, we make it.
 
-- **92 events** across Paris - club nights, day parties, street activations, boat parties
-- **20 restaurants** - street food & indie gems for the young creative crowd
-- **Language guide** - essential phrases & cultural slang to navigate & engage with locals
-- **Interactive map** - explore locations, filter by type, discover neighborhoods
+## What's inside
 
-## Features
+- **90 events** across the weekend (Fri 19, Sat 20, Sun 21 June) — club nights, day parties, street parties, boat parties
+- **Direct ticket / RSVP links** for every event that has one — straight to Shotgun, Dice, Partiful, Eventbrite, Fatsoma or the promoter's RSVP post. No bouncing through a middle page first
+- **Real venue coordinates** — 75 of 90 events are pinned to the exact venue, the rest to the right area, with anything undisclosed clearly flagged "Location TBC"
+- **20 street-food & indie food spots** and **51 street-language phrases**
 
-- **Mobile-first design** - optimized for browsing on the go
-- **List view** - all events with full details, searchable and filterable
-- **Interactive map** - Leaflet.js powered, color-coded by event type
-- **Live search** - find events by name, venue, or genre
-- **Type filters** - Day Party, Club Night, Street, Food
-- **Language reference** - searchable French/English phrases
-- **Dark, intentional aesthetic** - aligned with FORE brand values
+## How it's better than before
 
-## How to Deploy to GitHub Pages
+- The map and the list are properly linked. Tap an event, the map flies to that exact pin and opens it. Tap a pin, the list jumps to that event.
+- Every pin sits on the real venue, not a generic district centre, so events no longer stack on top of each other.
+- Filter by type, day and status (Free / Tickets / Sold Out / Coming Soon), plus live search across names, venues and sounds.
+- Direct ticket links surface as a clear button on every card and in every map popup.
+- Fully self-contained: all data is embedded in `index.html`, so the site can't fail to load its data.
 
-### 1. Create a GitHub Repository
+## Files
+
+- `index.html` — the whole site, self-contained (HTML, CSS, JS and data all in one file)
+- `data.json` — the same event / restaurant / language data as a clean JSON file, if you want to reuse it elsewhere
+- `FETEMAPPER_Events_2026_CLEANED.xlsx` — the cleaned, enriched source spreadsheet (direct links, coordinates, normalised fields)
+- `README.md` — this file
+
+## How to update your live site (simple version)
+
+Your existing site is at `https://jordanfore.github.io/fore-fete/`.
+
+1. Download `index.html` from this folder.
+2. Go to your repo: `https://github.com/jordanfore/fore-fete`
+3. Click the old `index.html`, then the pencil (✏️) icon to edit.
+4. Select all the old code and delete it, then paste in the new `index.html`.
+5. Scroll down, write a short message like "Rebuild: direct links + accurate map", and click **Commit changes**.
+6. Wait ~30 seconds and refresh your site. Done.
+
+Prefer the terminal? Drop the new `index.html` into your local `fore-fete` folder and run:
 
 ```bash
-# Initialize git (if not already done)
-git init
-
-# Add all files
-git add .
-
-# Initial commit
-git commit -m "Initial commit: FORE fête guide"
-
-# Create a new repo at github.com/jordanfore/fore-fete
-# Then set the remote and push
-git remote add origin https://github.com/jordanfore/fore-fete.git
-git branch -M main
-git push -u origin main
+git add index.html
+git commit -m "Rebuild: direct ticket links + accurate venue map"
+git push
 ```
 
-### 2. Enable GitHub Pages
+## Tech
 
-1. Go to your repository: `https://github.com/jordanfore/fore-fete`
-2. Click **Settings** (top right)
-3. Scroll to **Pages** (left sidebar)
-4. Under "Build and deployment", select:
-   - **Source:** Deploy from a branch
-   - **Branch:** main (or master)
-   - **Folder:** / (root)
-5. Click **Save**
-
-### 3. Live Site
-
-Your site will be live at: **https://jordanfore.github.io/fore-fete**
-
-Share this link! 🔗
-
-## Files Included
-
-- `index.html` - Main interactive site (all CSS/JS embedded)
-- `data.json` - All event, restaurant, and language data
-- `README.md` - This file
-- `.gitignore` - Git ignore rules
-
-## Browser Compatibility
-
-Works on all modern browsers (Chrome, Firefox, Safari, Edge). Mobile-first responsive design.
-
-## Technology Stack
-
-- **Frontend:** Vanilla HTML5, CSS3, JavaScript
-- **Mapping:** Leaflet.js
-- **Data:** Static JSON
-- **Hosting:** GitHub Pages (free, fast, reliable)
-
-## Design Philosophy
-
-Built with FORE's core values:
-- We don't wait fore change - we make it
-- Where they see barriers, we see opportunity
-- This guide exists for the people, by the people
-- Community over clout
+Vanilla HTML / CSS / JavaScript · Leaflet.js for the map · CARTO dark tiles · hosted free on GitHub Pages.
 
 ---
 
-**FORE fête** - Democratizing access to Paris's underground creative scene. 🎭✨
+**FORE fête** — for the people, by the people. One FORE all.
