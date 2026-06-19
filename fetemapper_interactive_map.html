@@ -1,0 +1,440 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FÊTEMAPPER 2026 Interactive Map</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.css" integrity="sha512-h9FcoyWjrSciIFUuxfbMg8TAWeXTm1PyxeZ04rZ7RVrgQvI+lHFRs8Xwxq6YpIn8aJbNjxJ2I+6rnkZP3PWavg==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.js" integrity="sha512-WXoSL2lrKOSIDm6dSlQVW3zaeSNn3TIHL/ug1hyywIw+PKLCvPinsdJ6XwmXmNzpxKW3ZQbSv2n1LP1ShcUTRw==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+            background: #f5f5f5;
+        }
+
+        .container {
+            display: flex;
+            height: 100vh;
+        }
+
+        .sidebar {
+            width: 350px;
+            background: white;
+            overflow-y: auto;
+            box-shadow: 2px 0 8px rgba(0,0,0,0.1);
+            z-index: 100;
+        }
+
+        .sidebar-header {
+            padding: 20px;
+            background: linear-gradient(135deg, #00ff00 0%, #00aa00 100%);
+            color: white;
+            font-weight: bold;
+            font-size: 18px;
+            border-bottom: 3px solid #008800;
+        }
+
+        .search-box {
+            padding: 15px;
+            border-bottom: 1px solid #ddd;
+        }
+
+        .search-box input {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            font-size: 14px;
+        }
+
+        .event-list {
+            padding: 10px;
+        }
+
+        .event-item {
+            padding: 12px;
+            margin: 8px 5px;
+            background: #f9f9f9;
+            border-left: 4px solid #00ff00;
+            cursor: pointer;
+            transition: all 0.2s;
+            border-radius: 4px;
+        }
+
+        .event-item:hover {
+            background: #e8f5e9;
+            transform: translateX(5px);
+        }
+
+        .event-item.active {
+            background: #c8e6c9;
+            border-left-color: #00aa00;
+        }
+
+        .event-name {
+            font-weight: 600;
+            color: #333;
+            font-size: 13px;
+            margin-bottom: 4px;
+        }
+
+        .event-meta {
+            font-size: 12px;
+            color: #666;
+            margin-top: 4px;
+        }
+
+        .event-type {
+            display: inline-block;
+            padding: 2px 8px;
+            background: #e0e0e0;
+            border-radius: 3px;
+            font-size: 11px;
+            margin-right: 5px;
+        }
+
+        .event-type.club {
+            background: #c3e1ff;
+        }
+
+        .event-type.day {
+            background: #fff9c4;
+        }
+
+        .event-type.street {
+            background: #f0f4c3;
+        }
+
+        .event-type.boat {
+            background: #b3e5fc;
+        }
+
+        .map {
+            flex: 1;
+            position: relative;
+        }
+
+        .popup-content {
+            font-size: 13px;
+            min-width: 250px;
+        }
+
+        .popup-title {
+            font-weight: bold;
+            margin-bottom: 8px;
+            color: #333;
+        }
+
+        .popup-section {
+            margin: 8px 0;
+            padding-bottom: 8px;
+            border-bottom: 1px solid #eee;
+        }
+
+        .popup-section:last-child {
+            border-bottom: none;
+        }
+
+        .popup-label {
+            font-weight: 600;
+            color: #555;
+            font-size: 12px;
+        }
+
+        .popup-value {
+            color: #333;
+            margin-top: 2px;
+        }
+
+        .popup-link {
+            color: #0563c1;
+            text-decoration: none;
+            font-size: 12px;
+        }
+
+        .popup-link:hover {
+            text-decoration: underline;
+        }
+
+        .filter-buttons {
+            padding: 10px;
+            border-bottom: 1px solid #ddd;
+            display: flex;
+            gap: 5px;
+            flex-wrap: wrap;
+        }
+
+        .filter-btn {
+            padding: 6px 12px;
+            border: 1px solid #ccc;
+            background: white;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 12px;
+            transition: all 0.2s;
+        }
+
+        .filter-btn:hover, .filter-btn.active {
+            background: #00ff00;
+            color: white;
+            border-color: #00aa00;
+        }
+
+        .status-badge {
+            display: inline-block;
+            padding: 2px 6px;
+            background: #ffebee;
+            color: #c62828;
+            border-radius: 3px;
+            font-size: 11px;
+            font-weight: 600;
+            margin-top: 4px;
+        }
+
+        .status-badge.free {
+            background: #e8f5e9;
+            color: #2e7d32;
+        }
+
+        .status-badge.coming {
+            background: #fff3e0;
+            color: #e65100;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="sidebar">
+            <div class="sidebar-header">🎭 FÊTEMAPPER 2026</div>
+
+            <div class="search-box">
+                <input type="text" id="searchInput" placeholder="Search events...">
+            </div>
+
+            <div class="filter-buttons">
+                <button class="filter-btn active" data-filter="all">All Events</button>
+                <button class="filter-btn" data-filter="club">Club Night</button>
+                <button class="filter-btn" data-filter="day">Day Party</button>
+                <button class="filter-btn" data-filter="street">Street Party</button>
+            </div>
+
+            <div class="event-list" id="eventList"></div>
+        </div>
+
+        <div class="map" id="map"></div>
+    </div>
+
+    <script>
+        const events = [
+            {"name": "VIBES OVERSEAS", "type": "club", "venue": "RSVP to Reveal Location", "date": "June 19 2026", "time": "23:00:00", "arr": "Central", "genres": ["UK Based Black Popular Music"], "status": "SOLD OUT", "lat": 48.8573, "lng": 2.3518, "id": "6a18734faf9909681f40d01d"},
+            {"name": "TRENDY X SIKA FDLM DAY 1", "type": "club", "venue": "Wanderlust", "date": "June 19 2026", "time": "23:00:00", "arr": "13th", "genres": ["Black Popular Music"], "status": "", "lat": 48.8573, "lng": 2.3518, "id": "6a18734faf9909681f40d020"},
+            {"name": "AMAPIANOLAND", "type": "club", "venue": "Secret Location", "date": "", "time": "", "arr": "Central", "genres": ["Amapiano"], "status": "", "lat": 48.8573, "lng": 2.3518, "id": "6a18734faf9909681f40d023"},
+            {"name": "DANKIE SOUNDS: FETE DE LA MUSIQUE OPENING PARTY", "type": "club", "venue": "Les Planches", "date": "June 19 2026", "time": "23:00:00", "arr": "8th", "genres": ["Amapiano", "Gqom", "3 Step"], "status": "", "lat": 48.8648, "lng": 2.3074, "id": "6a18734faf9909681f40d024"},
+            {"name": "AURA X LOVE & BOWL: WITH LOVE FROM PARIS", "type": "day", "venue": "Beach Bowling", "date": "June 19 2026", "time": "23:00:00", "arr": "Thiais", "genres": ["Black Popular Music", "UK Based Black Popular Music"], "status": "", "lat": 48.8023, "lng": 2.5066, "id": "6a18734faf9909681f40d025"},
+            {"name": "SLOW JAMS NATION - FETE DE LA MUSIQUE SLOW JAMS PARTY", "type": "club", "venue": "Salons du Louvre", "date": "June 19 2026", "time": "23:00:00", "arr": "1st", "genres": ["RnB"], "status": "", "lat": 48.8611, "lng": 2.3352, "id": "6a18734faf9909681f40d026"},
+            {"name": "G2G X NTABA2LONDON – LIVE SHOWCASE", "type": "club", "venue": "Infitnity Club", "date": "June 19 2026", "time": "23:00:00", "arr": "9th", "genres": ["Afro", "Shatta", "Amapiano"], "status": "", "lat": 48.8738, "lng": 2.3539, "id": "6a18734faf9909681f40d027"},
+            {"name": "FDLM: 1WAY X CLOSE FRIENDS", "type": "club", "venue": "Carré Montparnasse", "date": "June 19 2026", "time": "23:00:00", "arr": "14th", "genres": ["UK Based Black Popular Music", "Black Popular Music"], "status": "", "lat": 48.8390, "lng": 2.3239, "id": "6a18734faf9909681f40d028"},
+            {"name": "WATAVIBES: CLUB EVENT", "type": "club", "venue": "Coming Soon", "date": "June 19 2026", "time": "23:00:00", "arr": "Central", "genres": ["FR Based Black Popular Music", "Amapiano", "Afrobeats"], "status": "Coming Soon", "lat": 48.8573, "lng": 2.3518, "id": "6a18734faf9909681f40d029"},
+            {"name": "GINGER WELCOME NCE", "type": "boat", "venue": "RSVP to Reveal Location", "date": "June 19 2026", "time": "23:30:00", "arr": "Central", "genres": ["Bouyon", "Afro House", "Shatta"], "status": "", "lat": 48.8573, "lng": 2.3518, "id": "6a18734faf9909681f40d02a"},
+            {"name": "ZSONGO: PARIS", "type": "club", "venue": "La Machine du Moulin Rouge", "date": "June 19 2026", "time": "23:00:00", "arr": "18th", "genres": ["Amapiano", "Private Piano", "Gqom"], "status": "SOLD OUT", "lat": 48.8844, "lng": 2.3297, "id": "6a18734faf9909681f40d02b"},
+            {"name": "SWEAT #3: AFRO-ELECTRONIC", "type": "club", "venue": "99 Ambush", "date": "June 19 2026", "time": "23:00:00", "arr": "9th", "genres": ["Afro", "Shatta", "Afrobeats"], "status": "", "lat": 48.8738, "lng": 2.3539, "id": "6a18734faf9909681f40d02c"},
+            {"name": "SIXTION: WELCOME2PARIS", "type": "club", "venue": "YOYO (Palais de Tokyo)", "date": "June 19 2026", "time": "23:00:00", "arr": "16th", "genres": ["UK Based Black Popular Music", "FR Based Black Popular Music", "Black Popular Music"], "status": "SOLD OUT", "lat": 48.8606, "lng": 2.2977, "id": "6a18734faf9909681f40d02d"},
+            {"name": "AMAPIANO LAND", "type": "club", "venue": "Bridge Club", "date": "June 19 2026", "time": "23:00:00", "arr": "8th", "genres": ["Amapiano", "Gqom", "3 Step"], "status": "", "lat": 48.8648, "lng": 2.3074, "id": "6a18734faf9909681f40d02e"},
+            {"name": "THIS IS LA VIE", "type": "club", "venue": "Movida", "date": "June 19 2026", "time": "23:00:00", "arr": "19th", "genres": ["UK Based Black Popular Music"], "status": "", "lat": 48.8932, "lng": 2.4011, "id": "6a18734faf9909681f40d02f"},
+            {"name": "LA CLAIRIÈRE : SHIMZA, KASANGO, AMRITA", "type": "club", "venue": "La Clairière", "date": "June 19 2026", "time": "23:00:00", "arr": "16th", "genres": ["Afro House"], "status": "", "lat": 48.8591, "lng": 2.2880, "id": "6a18734faf9909681f40d030"},
+            {"name": "THE PARIS MOTION - DAY PARTY", "type": "club", "venue": "Secret Location", "date": "June 20 2026", "time": "15:00:00", "arr": "Central", "genres": ["Black Popular Music", "Coupé Décalé", "Kompa"], "status": "SOLD OUT", "lat": 48.8573, "lng": 2.3518, "id": "6a18734faf9909681f40d031"},
+            {"name": "TRENDY FDLM DAY 2", "type": "club", "venue": "Wanderlust", "date": "June 20 2026", "time": "23:00:00", "arr": "13th", "genres": ["Black Popular Music"], "status": "", "lat": 48.8573, "lng": 2.3518, "id": "6a18734faf9909681f40d032"},
+            {"name": "FINAL DESTINATION: A NIGHT IN PARIS - THE FDLM WARMUP", "type": "club", "venue": "Tape Paris", "date": "June 20 2026", "time": "22:00:00", "arr": "1st", "genres": ["UK Based Black Popular Music"], "status": "", "lat": 48.8611, "lng": 2.3352, "id": "6a18734faf9909681f40d033"},
+            {"name": "AFROLIVE & ADA COLLECTIVE : FÊTE DE LA MUSIQUE", "type": "club", "venue": "La Place", "date": "June 20 2026", "time": "23:00:00", "arr": "1st", "genres": ["Afro", "Afrobeats", "Amapiano"], "status": "", "lat": 48.8611, "lng": 2.3352, "id": "6a18734faf9909681f40d034"},
+            {"name": "CARL COX & MAU P @ CHÂTEAU DE CHANTILLY", "type": "day", "venue": "Château de Chantilly", "date": "June 20 2026", "time": "18:30:00", "arr": "Chantilly", "genres": ["Afro"], "status": "", "lat": 49.1958, "lng": 2.4756, "id": "6a18734faf9909681f40d035"},
+            {"name": "DLT PARIS - FDLM SPECIAL", "type": "club", "venue": "Le Trabendo", "date": "June 20 2026", "time": "23:00:00", "arr": "19th", "genres": ["Black Popular Music", "UK Based Black Popular Music"], "status": "", "lat": 48.8932, "lng": 2.4011, "id": "6a18734faf9909681f40d036"},
+            {"name": "FUSIÓN FDLM AT YOYO PALAIS DE TOKYO", "type": "club", "venue": "YOYO (Palais de Tokyo)", "date": "June 20 2026", "time": "23:00:00", "arr": "16th", "genres": ["Afro", "Afrobeats", "Reggaeton"], "status": "", "lat": 48.8606, "lng": 2.2977, "id": "6a18734faf9909681f40d037"},
+            {"name": "SOCIALKIDS X RSPACE: FETE DE LA MUSIQUE DAY PARTY", "type": "day", "venue": "RSPACE", "date": "June 20 2026", "time": "17:00:00", "arr": "19th", "genres": ["Hip-Hop", "Rap", "Wave"], "status": "", "lat": 48.8932, "lng": 2.4011, "id": "6a18734faf9909681f40d038"},
+            {"name": "ART BEYOND THE SHELL", "type": "day", "venue": "Coming Soon", "date": "", "time": "", "arr": "Central", "genres": ["Edits", "Alternative", "Alté"], "status": "Coming Soon", "lat": 48.8573, "lng": 2.3518, "id": "6a18734faf9909681f40d039"},
+            {"name": "N'JOY: FDLM PRE PARTY", "type": "club", "venue": "Coming Soon", "date": "June 20 2026", "time": "17:00:00", "arr": "Central", "genres": ["Amapiano", "Black Popular Music", "Dancehall"], "status": "Coming Soon, FREE", "lat": 48.8573, "lng": 2.3518, "id": "6a18734faf9909681f40d03a"},
+            {"name": "ONE2MANY DAYCLUB: FETE DE LA MUSIQUE WARM UP", "type": "day", "venue": "RSVP to Reveal Location", "date": "June 20 2026", "time": "14:00:00", "arr": "Central", "genres": ["Black Popular Music"], "status": "", "lat": 48.8573, "lng": 2.3518, "id": "6a18734faf9909681f40d03b"},
+            {"name": "GTB WORLD X OUTLAWZ, OPEN AIR DAY PARTY", "type": "club", "venue": "Nouveau Casino", "date": "June 20 2026", "time": "16:00:00", "arr": "11th", "genres": ["Amapiano"], "status": "", "lat": 48.8739, "lng": 2.3628, "id": "6a18734faf9909681f40d03c"},
+            {"name": "AFROTHERAPY: FDLM PRE PARTY 2026", "type": "club", "venue": "Movida", "date": "June 20 2026", "time": "23:00:00", "arr": "19th", "genres": ["Afro", "Afrobeats", "3 Step"], "status": "", "lat": 48.8932, "lng": 2.4011, "id": "6a18734faf9909681f40d03d"},
+            {"name": "NICKI EVENTS", "type": "day", "venue": "Domaine de la Grange-la-Prévôté", "date": "June 20 2026", "time": "14:00:00", "arr": "Plessis-le-Roi", "genres": ["Afrobeats", "Kompa", "Dancehall"], "status": "SOLD OUT", "lat": 48.7533, "lng": 2.4467, "id": "6a18734faf9909681f40d03e"},
+            {"name": "FÊTE DE LA MUSIQUE DOMINICAINE À LA CITÉ FERTILE", "type": "club", "venue": "L'EMPIRE CLUB", "date": "June 20 2026", "time": "23:00:00", "arr": "14th", "genres": ["Afrobeats", "Kompa", "Dancehall"], "status": "", "lat": 48.8390, "lng": 2.3239, "id": "6a18734faf9909681f40d03f"},
+            {"name": "SIXTION: ROAD2FDLM", "type": "club", "venue": "T7", "date": "June 20 2026", "time": "23:00:00", "arr": "15th", "genres": ["UK Based Black Popular Music", "FR Based Black Popular Music", "Black Popular Music"], "status": "SOLD OUT", "lat": 48.8390, "lng": 2.3057, "id": "6a18734faf9909681f40d040"},
+            {"name": "HENJOYMENT X VIBESNEXTDOOR: VIBES IN PARIS", "type": "club", "venue": "Chez Lulu", "date": "June 20 2026", "time": "23:00:00", "arr": "1st", "genres": ["Black Popular Music", "Amapiano", "Afrobeats"], "status": "SOLD OUT", "lat": 48.8611, "lng": 2.3352, "id": "6a18734faf9909681f40d041"},
+            {"name": "THIS IS LA VIE", "type": "club", "venue": "Folies Pigalle", "date": "June 20 2026", "time": "23:00:00", "arr": "9th", "genres": ["UK Based Black Popular Music"], "status": "SOLD OUT", "lat": 48.8738, "lng": 2.3539, "id": "6a18734faf9909681f40d042"},
+            {"name": "VIBES OVERSEAS", "type": "club", "venue": "RSVP to Reveal Location", "date": "June 21 2026", "time": "23:00:00", "arr": "Central", "genres": ["UK Based Black Popular Music"], "status": "", "lat": 48.8573, "lng": 2.3518, "id": "6a18734faf9909681f40d043"},
+            {"name": "TRENDY FDLM DAY 3", "type": "club", "venue": "Wanderlust", "date": "June 21 2026", "time": "23:00:00", "arr": "13th", "genres": ["Black Popular Music"], "status": "FREE", "lat": 48.8573, "lng": 2.3518, "id": "6a18734faf9909681f40d044"},
+            {"name": "WATAVIBES: STREET PARTY", "type": "street", "venue": "Coming Soon", "date": "June 21 2026", "time": "13:00:00", "arr": "Central", "genres": ["FR Based Black Popular Music", "Amapiano", "Afrobeats"], "status": "Coming Soon", "lat": 48.8573, "lng": 2.3518, "id": "6a18734faf9909681f40d045"},
+            {"name": "SPIRITUAL GANGSTA: FDLM AFTER PARTY", "type": "club", "venue": "Coming Soon", "date": "June 21 2026", "time": "23:00:00", "arr": "Central", "genres": ["Motherland", "Afrobeats", "Amapiano"], "status": "Coming Soon", "lat": 48.8573, "lng": 2.3518, "id": "6a18734faf9909681f40d046"},
+            {"name": "SPIRITUAL GANGSTA: STREET PARTY", "type": "street", "venue": "Coming Soon", "date": "June 21 2026", "time": "13:00:00", "arr": "Central", "genres": ["Motherland", "Afrobeats", "Amapiano"], "status": "Coming Soon, FREE", "lat": 48.8573, "lng": 2.3518, "id": "6a18734faf9909681f40d047"},
+            {"name": "TWIN WORLD", "type": "street", "venue": "Coming Soon", "date": "June 21 2026", "time": "23:00:00", "arr": "Central", "genres": ["Afro", "Rap", "RnB"], "status": "Coming Soon, FREE", "lat": 48.8573, "lng": 2.3518, "id": "6a18734faf9909681f40d048"},
+            {"name": "N'JOY: FDLM AFTER PARTY", "type": "club", "venue": "Coming Soon", "date": "June 21 2026", "time": "18:00:00", "arr": "Central", "genres": ["Amapiano", "Black Popular Music", "Dancehall"], "status": "Coming Soon, FREE", "lat": 48.8573, "lng": 2.3518, "id": "6a18734faf9909681f40d049"},
+            {"name": "MOONSHINE FDLM PARTY", "type": "street", "venue": "Coming Soon", "date": "June 21 2026", "time": "15:00:00", "arr": "Central", "genres": ["Alternative", "Alté", "Edits"], "status": "Coming Soon, FREE", "lat": 48.8573, "lng": 2.3518, "id": "6a18734faf9909681f40d04a"},
+            {"name": "FEUNAFEU X KALBAS' - FÊTE DE LA MUSIQUE 2026", "type": "street", "venue": "Passage des Lingeres", "date": "June 21 2026", "time": "16:00:00", "arr": "1st", "genres": ["Amapiano", "Private Piano", "Gqom"], "status": "FREE", "lat": 48.8611, "lng": 2.3352, "id": "6a18734faf9909681f40d04b"},
+            {"name": "LET ME HOLD YOU: FDLM", "type": "street", "venue": "LMHY - FDLM SP", "date": "June 21 2026", "time": "18:00:00", "arr": "1st", "genres": ["RnB", "FR RnB", "Futurebeats"], "status": "FREE", "lat": 48.8611, "lng": 2.3352, "id": "6a18734faf9909681f40d04c"},
+            {"name": "NUU FDLM STREET PARTY", "type": "street", "venue": "NUU - FDLM SP", "date": "June 21 2026", "time": "15:00:00", "arr": "Central", "genres": ["Black Popular Music"], "status": "FREE", "lat": 48.8573, "lng": 2.3518, "id": "6a18734faf9909681f40d04d"},
+            {"name": "SWEAT #4: ISLAND FETE", "type": "club", "venue": "99 Ambush", "date": "June 21 2026", "time": "23:00:00", "arr": "9th", "genres": ["Afro", "Shatta", "Afrobeats"], "status": "", "lat": 48.8738, "lng": 2.3539, "id": "6a18734faf9909681f40d04e"},
+            {"name": "SIXTION: FDLM AFTERPARTY", "type": "club", "venue": "Cabaret Sauvage", "date": "June 21 2026", "time": "23:00:00", "arr": "19th", "genres": ["UK Based Black Popular Music", "FR Based Black Popular Music", "Black Popular Music"], "status": "SOLD OUT", "lat": 48.8932, "lng": 2.4011, "id": "6a18734faf9909681f40d04f"},
+            {"name": "DANE", "type": "street", "venue": "42 Rue Notre Dame de Nazareth", "date": "June 21 2026", "time": "14:00:00", "arr": "3rd", "genres": ["Black Popular Music"], "status": "FREE", "lat": 48.8639, "lng": 2.3656, "id": "6a18734faf9909681f40d050"},
+            {"name": "WOZA LA FETE : FETE DE LA MUSIQUE SPECIAL", "type": "club", "venue": "Solum", "date": "June 21 2026", "time": "23:00:00", "arr": "7th", "genres": ["Amapiano", "Afro", "Private Piano"], "status": "", "lat": 48.8495, "lng": 2.2947, "id": "6a18734faf9909681f40d051"},
+            {"name": "CLASSICS ONLY X CLASSICS ONLY", "type": "club", "venue": "YOYO (Palais de Tokyo)", "date": "June 21 2026", "time": "23:00:00", "arr": "16th", "genres": ["Hip-Hop", "Rap", "FR RnB"], "status": "", "lat": 48.8606, "lng": 2.2977, "id": "6a18734faf9909681f40d052"},
+        ];
+
+        let currentFilter = 'all';
+        let filteredEvents = [...events];
+
+        // Initialize map
+        const map = L.map('map').setView([48.8566, 2.3522], 11);
+        L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+            attribution: '© OpenStreetMap contributors',
+            maxZoom: 19
+        }).addTo(map);
+
+        const markers = {};
+        const typeColors = {
+            club: '#FF006E',
+            day: '#FFB703',
+            street: '#8338EC',
+            boat: '#3A86FF'
+        };
+
+        function createMarker(event) {
+            const icon = L.divIcon({
+                className: 'custom-div-icon',
+                html: `<div style="background-color: ${typeColors[event.type]}; width: 32px; height: 32px; border-radius: 50%; display: flex; align-items: center; justify-content: center; color: white; font-weight: bold; border: 2px solid white; box-shadow: 0 2px 6px rgba(0,0,0,0.3);">•</div>`,
+                iconSize: [32, 32],
+                iconAnchor: [16, 16]
+            });
+
+            const marker = L.marker([event.lat, event.lng], {icon}).addTo(map);
+
+            const popupContent = `
+                <div class="popup-content">
+                    <div class="popup-title">${event.name}</div>
+                    <div class="popup-section">
+                        <div class="popup-label">📍 Venue</div>
+                        <div class="popup-value">${event.venue}</div>
+                    </div>
+                    <div class="popup-section">
+                        <div class="popup-label">📅 Date & Time</div>
+                        <div class="popup-value">${event.date || 'TBA'} @ ${event.time || 'TBA'}</div>
+                    </div>
+                    <div class="popup-section">
+                        <div class="popup-label">🎵 Genres</div>
+                        <div class="popup-value">${event.genres.join(', ')}</div>
+                    </div>
+                    ${event.status ? `<div class="popup-value" style="margin-top: 8px;"><strong>${event.status}</strong></div>` : ''}
+                    <div class="popup-section">
+                        <a href="https://fetemapper.com/EventDetail?id=${event.id}" class="popup-link" target="_blank">View Event Details →</a>
+                    </div>
+                </div>
+            `;
+
+            marker.bindPopup(popupContent);
+
+            marker.on('click', function() {
+                highlightEventItem(event.id);
+            });
+
+            return marker;
+        }
+
+        function renderEventList(eventsToRender) {
+            const listContainer = document.getElementById('eventList');
+            listContainer.innerHTML = '';
+
+            eventsToRender.forEach((event, idx) => {
+                const eventEl = document.createElement('div');
+                eventEl.className = 'event-item';
+                eventEl.id = `event-${event.id}`;
+
+                const statusHTML = event.status ? `<div class="status-badge ${event.status.toLowerCase().includes('free') ? 'free' : event.status.toLowerCase().includes('coming') ? 'coming' : ''}">${event.status}</div>` : '';
+
+                eventEl.innerHTML = `
+                    <div class="event-name">${event.name}</div>
+                    <div class="event-meta">
+                        <span class="event-type ${event.type}">${event.type.toUpperCase()}</span>
+                        <span style="color: #999;">•</span>
+                        <span style="color: #666;">${event.date.split(' ')[1] || ''} ${event.date.split(' ')[2] || ''}</span>
+                    </div>
+                    <div style="font-size: 11px; color: #777; margin-top: 4px;">📍 ${event.venue}</div>
+                    ${statusHTML}
+                `;
+
+                eventEl.addEventListener('click', () => {
+                    highlightEventItem(event.id);
+                    if (markers[event.id]) {
+                        map.setView([event.lat, event.lng], 14);
+                        markers[event.id].openPopup();
+                    }
+                });
+
+                listContainer.appendChild(eventEl);
+            });
+        }
+
+        function highlightEventItem(eventId) {
+            document.querySelectorAll('.event-item').forEach(el => {
+                el.classList.remove('active');
+            });
+            const el = document.getElementById(`event-${eventId}`);
+            if (el) el.classList.add('active');
+        }
+
+        function filterEvents() {
+            if (currentFilter === 'all') {
+                filteredEvents = [...events];
+            } else {
+                filteredEvents = events.filter(e => e.type === currentFilter);
+            }
+
+            // Update markers visibility
+            Object.keys(markers).forEach(id => {
+                const event = events.find(e => e.id === id);
+                const shouldShow = currentFilter === 'all' || event.type === currentFilter;
+                if (shouldShow) {
+                    map.addLayer(markers[id]);
+                } else {
+                    map.removeLayer(markers[id]);
+                }
+            });
+
+            renderEventList(filteredEvents);
+        }
+
+        // Search functionality
+        document.getElementById('searchInput').addEventListener('input', (e) => {
+            const query = e.target.value.toLowerCase();
+            const searched = filteredEvents.filter(event =>
+                event.name.toLowerCase().includes(query) ||
+                event.venue.toLowerCase().includes(query) ||
+                event.genres.some(g => g.toLowerCase().includes(query))
+            );
+            renderEventList(searched);
+        });
+
+        // Filter buttons
+        document.querySelectorAll('.filter-btn').forEach(btn => {
+            btn.addEventListener('click', () => {
+                document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+                btn.classList.add('active');
+                currentFilter = btn.dataset.filter;
+                filterEvents();
+            });
+        });
+
+        // Initialize markers
+        events.forEach(event => {
+            markers[event.id] = createMarker(event);
+        });
+
+        // Initial render
+        renderEventList(events);
+
+    </script>
+</body>
+</html>

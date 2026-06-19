@@ -1,0 +1,640 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FORE fête - Paris Fête de la Musique 2026</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.css" />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.js"></script>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+            background: #0a0a0a;
+            color: #ffffff;
+            line-height: 1.6;
+        }
+
+        /* HEADER */
+        header {
+            background: #000;
+            border-bottom: 2px solid #ffffff;
+            padding: 16px;
+            sticky: top;
+            z-index: 1000;
+            position: sticky;
+            top: 0;
+        }
+
+        .logo {
+            font-size: 24px;
+            font-weight: 900;
+            letter-spacing: -2px;
+            text-transform: uppercase;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            margin-bottom: 12px;
+        }
+
+        .logo span:first-child {
+            color: #ffffff;
+        }
+
+        .subtitle {
+            font-size: 12px;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            opacity: 0.7;
+            margin-bottom: 12px;
+        }
+
+        /* MAIN CONTAINER */
+        .container {
+            display: flex;
+            height: calc(100vh - 80px);
+            gap: 0;
+        }
+
+        /* LIST VIEW */
+        .list-panel {
+            flex: 1;
+            overflow-y: auto;
+            background: #0a0a0a;
+            border-right: 1px solid #333;
+        }
+
+        /* CONTROLS */
+        .controls {
+            position: sticky;
+            top: 0;
+            background: #1a1a1a;
+            padding: 12px;
+            border-bottom: 1px solid #333;
+            z-index: 100;
+        }
+
+        .search-box {
+            width: 100%;
+            padding: 10px;
+            background: #2a2a2a;
+            border: 1px solid #444;
+            color: #fff;
+            margin-bottom: 8px;
+            font-size: 14px;
+        }
+
+        .filter-group {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 8px;
+            margin-bottom: 8px;
+        }
+
+        .filter-btn {
+            padding: 8px;
+            background: #2a2a2a;
+            border: 1px solid #444;
+            color: #fff;
+            font-size: 12px;
+            cursor: pointer;
+            text-transform: uppercase;
+            transition: all 0.2s;
+        }
+
+        .filter-btn.active {
+            background: #ffffff;
+            color: #000;
+            border-color: #ffffff;
+        }
+
+        .filter-btn:hover {
+            border-color: #fff;
+        }
+
+        /* EVENT LIST */
+        .event-list {
+            padding: 0;
+        }
+
+        .event-item {
+            padding: 12px;
+            border-bottom: 1px solid #222;
+            cursor: pointer;
+            transition: background 0.2s;
+        }
+
+        .event-item:hover {
+            background: #1a1a1a;
+        }
+
+        .event-item.active {
+            background: #1a1a1a;
+            border-left: 3px solid #ffffff;
+            padding-left: 9px;
+        }
+
+        .event-title {
+            font-weight: 700;
+            font-size: 14px;
+            margin-bottom: 4px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .event-details {
+            font-size: 12px;
+            opacity: 0.7;
+            margin-bottom: 4px;
+        }
+
+        .event-time {
+            font-size: 11px;
+            opacity: 0.6;
+        }
+
+        .event-type {
+            display: inline-block;
+            font-size: 10px;
+            padding: 2px 6px;
+            background: #2a2a2a;
+            margin-top: 4px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        /* MAP VIEW */
+        .map-panel {
+            flex: 1;
+            display: none;
+        }
+
+        #map {
+            width: 100%;
+            height: 100%;
+        }
+
+        /* MODAL */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.9);
+            z-index: 2000;
+            padding: 20px;
+            overflow-y: auto;
+        }
+
+        .modal.active {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .modal-content {
+            background: #1a1a1a;
+            border: 1px solid #444;
+            padding: 20px;
+            margin: auto;
+            width: 100%;
+            max-width: 600px;
+        }
+
+        .modal-close {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            background: #ffffff;
+            color: #000;
+            border: none;
+            width: 40px;
+            height: 40px;
+            font-size: 24px;
+            cursor: pointer;
+            z-index: 2001;
+        }
+
+        .language-search {
+            width: 100%;
+            padding: 10px;
+            background: #2a2a2a;
+            border: 1px solid #444;
+            color: #fff;
+            margin-bottom: 12px;
+        }
+
+        .language-item {
+            padding: 12px;
+            border-bottom: 1px solid #333;
+            font-size: 13px;
+        }
+
+        .lang-context {
+            opacity: 0.6;
+            font-size: 11px;
+            text-transform: uppercase;
+            margin-bottom: 4px;
+        }
+
+        .lang-english {
+            font-weight: 600;
+            margin-bottom: 4px;
+        }
+
+        .lang-french {
+            color: #999;
+            font-style: italic;
+        }
+
+        .lang-usage {
+            font-size: 11px;
+            opacity: 0.5;
+            margin-top: 4px;
+        }
+
+        /* BOTTOM NAV (Mobile) */
+        .bottom-nav {
+            display: flex;
+            gap: 0;
+            position: fixed;
+            bottom: 0;
+            width: 100%;
+            background: #000;
+            border-top: 1px solid #333;
+            z-index: 999;
+        }
+
+        .nav-btn {
+            flex: 1;
+            padding: 12px;
+            background: #000;
+            border: none;
+            color: #fff;
+            cursor: pointer;
+            text-transform: uppercase;
+            font-size: 12px;
+            font-weight: 600;
+            letter-spacing: 1px;
+            border-top: 2px solid transparent;
+            transition: all 0.2s;
+        }
+
+        .nav-btn.active {
+            border-top-color: #ffffff;
+            background: #1a1a1a;
+        }
+
+        .nav-btn:hover {
+            background: #1a1a1a;
+        }
+
+        /* DESKTOP LAYOUT */
+        @media (min-width: 768px) {
+            header {
+                padding: 20px;
+            }
+
+            .logo {
+                font-size: 32px;
+            }
+
+            .container {
+                height: calc(100vh - 120px);
+            }
+
+            .list-panel {
+                flex: 0 0 40%;
+                max-width: 500px;
+            }
+
+            .map-panel {
+                display: block;
+            }
+
+            .bottom-nav {
+                display: none;
+            }
+
+            .modal-content {
+                max-width: 700px;
+            }
+        }
+
+        /* RESPONSIVE */
+        @media (max-width: 480px) {
+            .filter-group {
+                grid-template-columns: 1fr;
+            }
+
+            .logo {
+                font-size: 20px;
+            }
+
+            .event-item {
+                padding: 10px;
+            }
+
+            .list-panel {
+                padding-bottom: 60px;
+            }
+        }
+
+        /* SCROLLBAR */
+        ::-webkit-scrollbar {
+            width: 6px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: #1a1a1a;
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: #444;
+            border-radius: 3px;
+        }
+
+        ::-webkit-scrollbar-thumb:hover {
+            background: #666;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="logo">
+            <span>FORE</span>
+            <span style="letter-spacing: 1px;">fête</span>
+        </div>
+        <div class="subtitle">Paris Fête de la Musique 2026 Guide</div>
+    </header>
+
+    <div class="container">
+        <div class="list-panel">
+            <div class="controls">
+                <input type="text" class="search-box" id="searchInput" placeholder="Search events...">
+                <div class="filter-group">
+                    <button class="filter-btn active" data-filter="all">All</button>
+                    <button class="filter-btn" data-filter="day">Day Party</button>
+                    <button class="filter-btn" data-filter="club">Club Night</button>
+                    <button class="filter-btn" data-filter="street">Street</button>
+                    <button class="filter-btn" data-filter="food">Food</button>
+                </div>
+                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 8px;">
+                    <button class="filter-btn" id="langBtn" style="grid-column: 1;">Language</button>
+                    <button class="filter-btn" id="aboutBtn" style="grid-column: 2;">About</button>
+                </div>
+            </div>
+            <div class="event-list" id="eventList"></div>
+        </div>
+
+        <div class="map-panel">
+            <div id="map"></div>
+        </div>
+    </div>
+
+    <div class="bottom-nav">
+        <button class="nav-btn active" data-view="list">List</button>
+        <button class="nav-btn" data-view="map">Map</button>
+        <button class="nav-btn" id="langNavBtn">Language</button>
+    </div>
+
+    <!-- MODALS -->
+    <div class="modal" id="languageModal">
+        <button class="modal-close" onclick="closeModal('languageModal')">×</button>
+        <div class="modal-content">
+            <h2 style="margin-bottom: 12px; text-transform: uppercase; letter-spacing: 2px; font-size: 18px;">Paris Street Language</h2>
+            <input type="text" class="language-search" id="langSearch" placeholder="Search phrases...">
+            <div id="languageList" style="max-height: 70vh; overflow-y: auto;"></div>
+        </div>
+    </div>
+
+    <div class="modal" id="aboutModal">
+        <button class="modal-close" onclick="closeModal('aboutModal')">×</button>
+        <div class="modal-content">
+            <h2 style="margin-bottom: 12px; text-transform: uppercase; letter-spacing: 2px; font-size: 18px;">About FORE fête</h2>
+            <p style="margin-bottom: 12px; font-size: 14px; line-height: 1.8;">
+                FORE fête is a comprehensive guide to Paris's Fête de la Musique 2026, curated for emerging creatives, independent thinkers, and community builders.
+            </p>
+            <h3 style="margin-top: 16px; margin-bottom: 8px; font-size: 13px; text-transform: uppercase; opacity: 0.8;">What's inside:</h3>
+            <ul style="font-size: 13px; line-height: 1.8; margin-left: 12px;">
+                <li><strong>92 events</strong> across Paris - club nights, day parties, street activations, boat parties</li>
+                <li><strong>20 restaurants</strong> - street food & indie gems for the young creative crowd</li>
+                <li><strong>Language guide</strong> - essential phrases & cultural slang to navigate & engage with locals</li>
+                <li><strong>Interactive map</strong> - explore locations, filter by type, discover neighborhoods</li>
+            </ul>
+            <p style="margin-top: 16px; font-size: 12px; opacity: 0.6;">
+                <strong>We are FORE.</strong> We don't wait fore change - we make it. This guide exists for the people, by the people. Where they see barriers, we see opportunity.
+            </p>
+        </div>
+    </div>
+
+    <script>
+        let allData = { events: [], restaurants: [], language: [] };
+        let filteredData = [];
+        let map = null;
+        let markers = {};
+
+        // LOAD DATA
+        async function loadData() {
+            try {
+                const response = await fetch('data.json');
+                allData = await response.json();
+                renderEventList();
+                setupMap();
+                setupLanguageGuide();
+            } catch (e) {
+                console.error('Error loading data:', e);
+                document.getElementById('eventList').innerHTML = '<div style="padding: 20px; opacity: 0.5;">Error loading data. Please ensure data.json is in the same directory.</div>';
+            }
+        }
+
+        // EVENT LIST RENDER
+        function renderEventList(filter = 'all', searchTerm = '') {
+            const list = document.getElementById('eventList');
+            let events = [...allData.events];
+
+            // Filter by type
+            if (filter !== 'all') {
+                events = events.filter(e => {
+                    const type = e.type.toLowerCase();
+                    if (filter === 'day') return type.includes('day') || type.includes('afternoon');
+                    if (filter === 'club') return type.includes('club') || type.includes('night');
+                    if (filter === 'street') return type.includes('street') || type.includes('outdoor');
+                    if (filter === 'food') return false;
+                    return true;
+                });
+            }
+
+            // Search
+            if (searchTerm) {
+                events = events.filter(e =>
+                    e.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
+                    e.venue.toLowerCase().includes(searchTerm.toLowerCase()) ||
+                    e.genres.toLowerCase().includes(searchTerm.toLowerCase())
+                );
+            }
+
+            // Add restaurants if food filter
+            if (filter === 'food') {
+                list.innerHTML = allData.restaurants.map(r => `
+                    <div class="event-item" onclick="selectEvent({...this})">
+                        <div class="event-title">🍽️ ${r.name}</div>
+                        <div class="event-details">${r.location}</div>
+                        <div class="event-details">${r.cuisine} • ${r.price}</div>
+                        <div class="event-type">${r.vibe}</div>
+                    </div>
+                `).join('');
+                return;
+            }
+
+            list.innerHTML = events.map(e => `
+                <div class="event-item" onclick="selectEvent(this, ${JSON.stringify(e)})">
+                    <div class="event-title">${e.name}</div>
+                    <div class="event-details">${e.venue} • ${e.arr}</div>
+                    <div class="event-details">${e.date}</div>
+                    <div class="event-time">${e.time}</div>
+                    <div class="event-type">${e.type}</div>
+                </div>
+            `).join('');
+
+            filteredData = events;
+        }
+
+        // SELECT EVENT
+        function selectEvent(el, event) {
+            document.querySelectorAll('.event-item').forEach(e => e.classList.remove('active'));
+            el.classList.add('active');
+
+            if (map && event && event.arr) {
+                const arrMap = {
+                    '1st': [48.8626, 2.3352], '2nd': [48.8694, 2.3412], '3rd': [48.8626, 2.3571],
+                    '4th': [48.8519, 2.3635], '10th': [48.8719, 2.3577], '11th': [48.8650, 2.3804],
+                    '12th': [48.8389, 2.3951]
+                };
+                const coord = arrMap[event.arr] || [48.8566, 2.3522];
+                map.setView(coord, 15);
+            }
+        }
+
+        // MAP SETUP
+        function setupMap() {
+            map = L.map('map').setView([48.8566, 2.3522], 12);
+            L.tileLayer('https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png', {
+                attribution: '© OpenStreetMap',
+                maxZoom: 19
+            }).addTo(map);
+
+            const arrCoords = {
+                '1st': [48.8626, 2.3352], '2nd': [48.8694, 2.3412], '3rd': [48.8626, 2.3571],
+                '4th': [48.8519, 2.3635], '5th': [48.8484, 2.3486], '6th': [48.8536, 2.3318],
+                '7th': [48.8561, 2.2982], '8th': [48.8704, 2.3077], '9th': [48.8738, 2.3363],
+                '10th': [48.8719, 2.3577], '11th': [48.8650, 2.3804], '12th': [48.8389, 2.3951],
+                '13th': [48.8267, 2.3618], '14th': [48.8320, 2.3263], '15th': [48.8471, 2.2802],
+                '16th': [48.8640, 2.2837], '17th': [48.8873, 2.3130], '18th': [48.8867, 2.3431],
+                '19th': [48.8828, 2.3930], '20th': [48.8600, 2.4000]
+            };
+
+            allData.events.forEach(e => {
+                const arrNum = e.arr.split('(')[0].trim();
+                const coord = arrCoords[arrNum] || [48.8566, 2.3522];
+                const color = e.id === 1 ? '#FFD60A' : (e.type.includes('Day') ? '#FF6B35' : e.type.includes('Club') ? '#FF1654' : '#9D4EDD');
+
+                L.circleMarker(coord, {
+                    radius: e.id === 1 ? 12 : 8,
+                    fillColor: color,
+                    color: '#fff',
+                    weight: 2,
+                    opacity: 1,
+                    fillOpacity: 0.8
+                }).addTo(map).bindPopup(`<strong>${e.name}</strong><br>${e.venue}<br>${e.date}`);
+            });
+
+            allData.restaurants.forEach(r => {
+                const arrNum = r.location.split('(')[0].trim();
+                const coord = arrCoords[arrNum] || [48.8566, 2.3522];
+                L.circleMarker(coord, {
+                    radius: 6,
+                    fillColor: '#06A77D',
+                    color: '#fff',
+                    weight: 1,
+                    opacity: 0.7,
+                    fillOpacity: 0.6
+                }).addTo(map).bindPopup(`<strong>🍽️ ${r.name}</strong><br>${r.location}<br>${r.cuisine}`);
+            });
+        }
+
+        // LANGUAGE GUIDE
+        function setupLanguageGuide() {
+            const list = document.getElementById('languageList');
+            list.innerHTML = allData.language.map(p => `
+                <div class="language-item">
+                    <div class="lang-context">${p.context}</div>
+                    <div class="lang-english">${p.english}</div>
+                    <div class="lang-french">${p.french}</div>
+                    <div class="lang-usage">${p.usage}</div>
+                </div>
+            `).join('');
+        }
+
+        // EVENT LISTENERS
+        document.getElementById('searchInput').addEventListener('input', (e) => {
+            renderEventList(document.querySelector('.filter-btn.active').dataset.filter, e.target.value);
+        });
+
+        document.querySelectorAll('.filter-btn').forEach(btn => {
+            btn.addEventListener('click', (e) => {
+                if (e.target.id === 'langBtn') { openModal('languageModal'); return; }
+                if (e.target.id === 'aboutBtn') { openModal('aboutModal'); return; }
+                document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+                e.target.classList.add('active');
+                renderEventList(e.target.dataset.filter);
+            });
+        });
+
+        document.querySelectorAll('.nav-btn').forEach(btn => {
+            btn.addEventListener('click', (e) => {
+                if (e.target.dataset.view === 'list') {
+                    document.querySelector('.list-panel').style.display = 'block';
+                    document.querySelector('.map-panel').style.display = 'none';
+                    document.querySelectorAll('.nav-btn').forEach(b => b.classList.remove('active'));
+                    e.target.classList.add('active');
+                } else if (e.target.dataset.view === 'map') {
+                    document.querySelector('.list-panel').style.display = 'none';
+                    document.querySelector('.map-panel').style.display = 'block';
+                    document.querySelectorAll('.nav-btn').forEach(b => b.classList.remove('active'));
+                    e.target.classList.add('active');
+                    if (map) map.invalidateSize();
+                }
+            });
+        });
+
+        document.getElementById('langNavBtn').addEventListener('click', () => { openModal('languageModal'); });
+
+        document.getElementById('langSearch').addEventListener('input', (e) => {
+            const list = document.getElementById('languageList');
+            const term = e.target.value.toLowerCase();
+            list.innerHTML = allData.language.filter(p =>
+                p.english.toLowerCase().includes(term) || p.french.toLowerCase().includes(term) || p.context.toLowerCase().includes(term)
+            ).map(p => `
+                <div class="language-item">
+                    <div class="lang-context">${p.context}</div>
+                    <div class="lang-english">${p.english}</div>
+                    <div class="lang-french">${p.french}</div>
+                    <div class="lang-usage">${p.usage}</div>
+                </div>
+            `).join('');
+        });
+
+        function openModal(id) { document.getElementById(id).classList.add('active'); }
+        function closeModal(id) { document.getElementById(id).classList.remove('active'); }
+
+        loadData();
+    </script>
+</body>
+</html>
