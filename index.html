@@ -25,10 +25,9 @@
             background: #000;
             border-bottom: 2px solid #ffffff;
             padding: 16px;
-            sticky: top;
-            z-index: 1000;
             position: sticky;
             top: 0;
+            z-index: 1000;
         }
 
         .logo {
@@ -42,16 +41,11 @@
             margin-bottom: 12px;
         }
 
-        .logo span:first-child {
-            color: #ffffff;
-        }
-
         .subtitle {
             font-size: 12px;
             letter-spacing: 2px;
             text-transform: uppercase;
             opacity: 0.7;
-            margin-bottom: 12px;
         }
 
         /* MAIN CONTAINER */
@@ -126,7 +120,7 @@
             padding: 12px;
             border-bottom: 1px solid #222;
             cursor: pointer;
-            transition: background 0.2s;
+            transition: all 0.2s;
         }
 
         .event-item:hover {
@@ -145,6 +139,20 @@
             margin-bottom: 4px;
             text-transform: uppercase;
             letter-spacing: 0.5px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 8px;
+        }
+
+        .event-link-icon {
+            font-size: 12px;
+            opacity: 0.6;
+            transition: opacity 0.2s;
+        }
+
+        .event-item:hover .event-link-icon {
+            opacity: 1;
         }
 
         .event-details {
@@ -363,6 +371,11 @@
         ::-webkit-scrollbar-thumb:hover {
             background: #666;
         }
+
+        /* HIGHLIGHTED MARKER */
+        .leaflet-marker-highlight {
+            z-index: 1000 !important;
+        }
     </style>
 </head>
 <body>
@@ -439,6 +452,7 @@
         let filteredData = [];
         let map = null;
         let markers = {};
+        let selectedMarker = null;
 
         // LOAD DATA
         async function loadData() {
@@ -483,7 +497,7 @@
             // Add restaurants if food filter
             if (filter === 'food') {
                 list.innerHTML = allData.restaurants.map(r => `
-                    <div class="event-item" onclick="selectEvent({...this})">
+                    <div class="event-item" onclick="selectEvent(this, ${JSON.stringify(r)}, true)">
                         <div class="event-title">🍽️ ${r.name}</div>
                         <div class="event-details">${r.location}</div>
                         <div class="event-details">${r.cuisine} • ${r.price}</div>
@@ -494,8 +508,11 @@
             }
 
             list.innerHTML = events.map(e => `
-                <div class="event-item" onclick="selectEvent(this, ${JSON.stringify(e)})">
-                    <div class="event-title">${e.name}</div>
+                <div class="event-item" onclick="selectEvent(this, ${JSON.stringify(e)}, false)" data-event-id="${e.id}">
+                    <div class="event-title">
+                        <span>${e.name}</span>
+                        ${e.url ? '<span class="event-link-icon" onclick="event.stopPropagation(); window.open(\'' + e.url + '\', \'_blank\');">🔗</span>' : ''}
+                    </div>
                     <div class="event-details">${e.venue} • ${e.arr}</div>
                     <div class="event-details">${e.date}</div>
                     <div class="event-time">${e.time}</div>
@@ -506,20 +523,45 @@
             filteredData = events;
         }
 
-        // SELECT EVENT
-        function selectEvent(el, event) {
+        // SELECT EVENT - CENTER MAP
+        function selectEvent(el, event, isFood) {
             document.querySelectorAll('.event-item').forEach(e => e.classList.remove('active'));
             el.classList.add('active');
 
-            if (map && event && event.arr) {
-                const arrMap = {
-                    '1st': [48.8626, 2.3352], '2nd': [48.8694, 2.3412], '3rd': [48.8626, 2.3571],
-                    '4th': [48.8519, 2.3635], '10th': [48.8719, 2.3577], '11th': [48.8650, 2.3804],
-                    '12th': [48.8389, 2.3951]
-                };
-                const coord = arrMap[event.arr] || [48.8566, 2.3522];
-                map.setView(coord, 15);
+            if (!map || !event) return;
+
+            // Get coordinates for the event
+            const arrMap = {
+                '1st': [48.8626, 2.3352], '2nd': [48.8694, 2.3412], '3rd': [48.8626, 2.3571],
+                '4th': [48.8519, 2.3635], '5th': [48.8484, 2.3486], '6th': [48.8536, 2.3318],
+                '7th': [48.8561, 2.2982], '8th': [48.8704, 2.3077], '9th': [48.8738, 2.3363],
+                '10th': [48.8719, 2.3577], '11th': [48.8650, 2.3804], '12th': [48.8389, 2.3951],
+                '13th': [48.8267, 2.3618], '14th': [48.8320, 2.3263], '15th': [48.8471, 2.2802],
+                '16th': [48.8640, 2.2837], '17th': [48.8873, 2.3130], '18th': [48.8867, 2.3431],
+                '19th': [48.8828, 2.3930], '20th': [48.8600, 2.4000]
+            };
+
+            let arrKey = event.arr ? event.arr.split('(')[0].trim() : (event.location ? event.location.split('(')[0].trim() : 'Paris');
+            const coord = arrMap[arrKey] || [48.8566, 2.3522];
+
+            // Center map to location
+            map.setView(coord, 15);
+
+            // Highlight the marker if it's an event (not food)
+            if (!isFood && event.id && markers[event.id]) {
+                highlightMarker(markers[event.id]);
             }
+        }
+
+        // HIGHLIGHT MARKER
+        function highlightMarker(marker) {
+            if (selectedMarker) {
+                selectedMarker.setRadius(8);
+                selectedMarker.setStyle({ weight: 2 });
+            }
+            marker.setRadius(12);
+            marker.setStyle({ weight: 3 });
+            selectedMarker = marker;
         }
 
         // MAP SETUP
@@ -540,22 +582,33 @@
                 '19th': [48.8828, 2.3930], '20th': [48.8600, 2.4000]
             };
 
+            // Add event markers
             allData.events.forEach(e => {
                 const arrNum = e.arr.split('(')[0].trim();
                 const coord = arrCoords[arrNum] || [48.8566, 2.3522];
                 const color = e.id === 1 ? '#FFD60A' : (e.type.includes('Day') ? '#FF6B35' : e.type.includes('Club') ? '#FF1654' : '#9D4EDD');
 
-                L.circleMarker(coord, {
+                const marker = L.circleMarker(coord, {
                     radius: e.id === 1 ? 12 : 8,
                     fillColor: color,
                     color: '#fff',
                     weight: 2,
                     opacity: 1,
                     fillOpacity: 0.8
-                }).addTo(map).bindPopup(`<strong>${e.name}</strong><br>${e.venue}<br>${e.date}`);
+                }).addTo(map).bindPopup(`<strong>${e.name}</strong><br>${e.venue}<br>${e.date}${e.url ? '<br><a href="' + e.url + '" target="_blank" style="color: #fff; text-decoration: underline;">View Event</a>' : ''}`);
+
+                markers[e.id] = marker;
+
+                // Click marker to select in list
+                marker.on('click', () => {
+                    const eventEl = document.querySelector(`[data-event-id="${e.id}"]`);
+                    if (eventEl) eventEl.click();
+                    highlightMarker(marker);
+                });
             });
 
-            allData.restaurants.forEach(r => {
+            // Add restaurant markers
+            allData.restaurants.forEach((r, idx) => {
                 const arrNum = r.location.split('(')[0].trim();
                 const coord = arrCoords[arrNum] || [48.8566, 2.3522];
                 L.circleMarker(coord, {
