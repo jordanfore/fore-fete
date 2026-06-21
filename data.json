@@ -24,6 +24,30 @@
     },
     {
       "id": 2,
+      "name": "SOIRÉE x OVERDYED x NOBAD: FÊTE DE LA MUSIQUE",
+      "type": "Day Party",
+      "date": "June, 21 2026",
+      "time_start": "",
+      "time_end": "",
+      "arr": "1st",
+      "venue": "The Orange Room",
+      "address": "29 Rue Jean-Jacques Rousseau, 75001 Paris",
+      "genres": "Afrobeats, Afro, House, Live Music",
+      "status": "Free",
+      "fee": "Free",
+      "sold_out": false,
+      "lat": 48.8637,
+      "lng": 2.3434,
+      "precision": "exact",
+      "ticket_url": "https://www.instagram.com/p/DZnuYtFCGW2/",
+      "instagram": "https://www.instagram.com/nobad_party/",
+      "tiktok": "",
+      "metro": "Louvre–Rivoli",
+      "featured": true,
+      "rank": 2
+    },
+    {
+      "id": 3,
       "name": "LOST BOYS FDLM STREET PARTY",
       "type": "Street Party",
       "date": "June, 21 2026",
@@ -45,7 +69,7 @@
       "metro": "Strasbourg - Saint-Denis"
     },
     {
-      "id": 3,
+      "id": 4,
       "name": "CURE & SHINDIG : FDLM COOKOUT",
       "type": "Street Party",
       "date": "June, 21 2026",
@@ -67,7 +91,7 @@
       "metro": "Parmentier"
     },
     {
-      "id": 4,
+      "id": 5,
       "name": "HOUSE OF NINE x BABEWYD POP UP",
       "type": "Street Party",
       "date": "June, 19 2026",
@@ -89,7 +113,7 @@
       "metro": "Sentier"
     },
     {
-      "id": 5,
+      "id": 6,
       "name": "TRENDY STREET PARTY",
       "type": "Street Party",
       "date": "June, 21 2026",
@@ -111,7 +135,7 @@
       "metro": ""
     },
     {
-      "id": 6,
+      "id": 7,
       "name": "SIXITION STREET PARTY",
       "type": "Street Party",
       "date": "June, 21 2026",
@@ -133,7 +157,7 @@
       "metro": "Corentin Cariou"
     },
     {
-      "id": 7,
+      "id": 8,
       "name": "ENSEMBLE FDLM STREET PARTY",
       "type": "Street Party",
       "date": "June, 21 2026",
@@ -155,7 +179,7 @@
       "metro": "Fort d'Aubervilliers"
     },
     {
-      "id": 8,
+      "id": 9,
       "name": "HEARTLESS BLOCK PARTY",
       "type": "Street Party",
       "date": "June, 21 2026",
@@ -177,7 +201,7 @@
       "metro": "Porte De La Chapelle"
     },
     {
-      "id": 9,
+      "id": 10,
       "name": "FDLM, WHO'S IN? - BLOCK PARTY",
       "type": "Street Party",
       "date": "June, 21 2026",
@@ -199,7 +223,7 @@
       "metro": "Gare du Nord"
     },
     {
-      "id": 10,
+      "id": 11,
       "name": "LAGOS PARIS FDLM 2026",
       "type": "Street Party",
       "date": "June, 21 2026",
@@ -221,7 +245,7 @@
       "metro": "Colonel Fabien"
     },
     {
-      "id": 11,
+      "id": 12,
       "name": "TRENDY STREET PARTY",
       "type": "Street Party",
       "date": "June, 20 2026",
@@ -243,7 +267,7 @@
       "metro": ""
     },
     {
-      "id": 12,
+      "id": 13,
       "name": "SAVAGE BLOCK PARTY X BOUTCHA BWA BLOCK",
       "type": "Street Party",
       "date": "June, 19 2026",
@@ -265,7 +289,7 @@
       "metro": "Porte De La Chapelle"
     },
     {
-      "id": 13,
+      "id": 14,
       "name": "HYPEMADA x BOMBAYE STREET PARTY",
       "type": "Street Party",
       "date": "June, 21 2026",
@@ -287,7 +311,7 @@
       "metro": "Bréguet - Sabin"
     },
     {
-      "id": 14,
+      "id": 15,
       "name": "Turtles in Paris",
       "type": "Street Party",
       "date": "June, 21 2026",
@@ -309,7 +333,7 @@
       "metro": "Sully–Morland"
     },
     {
-      "id": 15,
+      "id": 16,
       "name": "BACARDI TO THE WORLD X AFOURIKA : THE GROOVE EXPERIENCE",
       "type": "Club Night",
       "date": "June, 19 2026",
@@ -331,7 +355,7 @@
       "metro": "Pantin"
     },
     {
-      "id": 16,
+      "id": 17,
       "name": "GURUMASTA X SUPERBOCK X L’EMBUSCADE  BLOCK PARTY",
       "type": "Street Party",
       "date": "June, 21 2026",
@@ -353,7 +377,7 @@
       "metro": "Saint-Georges"
     },
     {
-      "id": 17,
+      "id": 18,
       "name": "MAMA KOSSA FDLM PARTY",
       "type": "Street Party",
       "date": "June, 21 2026",
@@ -375,7 +399,7 @@
       "metro": "Barbès - Rochechouart"
     },
     {
-      "id": 18,
+      "id": 19,
       "name": "PLAYPIEM X BASED FDLM BLOCK PARTY",
       "type": "Street Party",
       "date": "June, 21 2026",
@@ -397,7 +421,7 @@
       "metro": "Strasbourg - Saint-Denis"
     },
     {
-      "id": 19,
+      "id": 20,
       "name": "HELLO PANAM FDLM BLOCK PARTY",
       "type": "Street Party",
       "date": "June, 21 2026",
@@ -419,7 +443,7 @@
       "metro": "Bréguet - Sabin"
     },
     {
-      "id": 20,
+      "id": 21,
       "name": "UNBORN SOUNDS & TOKYOVITAMIN FDLM PARTY",
       "type": "Street Party",
       "date": "June, 21 2026",
@@ -441,7 +465,7 @@
       "metro": "Parmentier"
     },
     {
-      "id": 21,
+      "id": 22,
       "name": "LAGGA FDLM BLOCK PARTY",
       "type": "Street Party",
       "date": "June, 21 2026",
@@ -463,7 +487,7 @@
       "metro": "République"
     },
     {
-      "id": 22,
+      "id": 23,
       "name": "EXOTIC X WAGWAAAN BLOCK PARTY",
       "type": "Street Party",
       "date": "June, 21 2026",
@@ -485,7 +509,7 @@
       "metro": "Saint-Sébastien - Froissart"
     },
     {
-      "id": 23,
+      "id": 24,
       "name": "Prini x CERA FDLM BLOCK PARTY",
       "type": "Street Party",
       "date": "June, 21 2026",
@@ -507,7 +531,7 @@
       "metro": "Saint-Paul"
     },
     {
-      "id": 24,
+      "id": 25,
       "name": "REMASTERED, NELOW TV, MOBB FEST, GOTHAM SOUND SYSTEM & SKIMA PARTY -",
       "type": "Street Party",
       "date": "June, 21 2026",
@@ -529,7 +553,7 @@
       "metro": "Bourse"
     },
     {
-      "id": 25,
+      "id": 26,
       "name": "FREQUENCY DAY PARTY FÊTE DE LA MUSIQUE",
       "type": "Street Party",
       "date": "June, 21 2026",
@@ -551,7 +575,7 @@
       "metro": "Châtelet–Les Halles"
     },
     {
-      "id": 26,
+      "id": 27,
       "name": "Haitian Block Party",
       "type": "Street Party",
       "date": "June, 21 2026",
@@ -573,7 +597,7 @@
       "metro": "To Be Confirmed"
     },
     {
-      "id": 27,
+      "id": 28,
       "name": "FÊTE DE PANAME",
       "type": "Street Party",
       "date": "June, 21 2026",
@@ -595,7 +619,7 @@
       "metro": "Saint-Ambroise"
     },
     {
-      "id": 28,
+      "id": 29,
       "name": "PARIS KIDS DO IT BETTER BLOCK PARTY",
       "type": "Street Party",
       "date": "June, 21 2026",
@@ -617,7 +641,7 @@
       "metro": "République"
     },
     {
-      "id": 29,
+      "id": 30,
       "name": "FDLM WEEKENDER AT BRIDGE: BEST AFROBEATS & HIP HOP PARTY",
       "type": "Street Party",
       "date": "June, 19 2026",
@@ -639,7 +663,7 @@
       "metro": "Invalides"
     },
     {
-      "id": 30,
+      "id": 31,
       "name": "ONMYMIND - PARIS FÊTE DE LA MUSIQUE",
       "type": "Club Night",
       "date": "June, 19 2026",
@@ -661,7 +685,7 @@
       "metro": "Châtelet–Les Halles"
     },
     {
-      "id": 31,
+      "id": 32,
       "name": "LE BUNKER STREET PARTY",
       "type": "Street Party",
       "date": "June, 21 2026",
@@ -683,7 +707,7 @@
       "metro": "Guy Môquet"
     },
     {
-      "id": 32,
+      "id": 33,
       "name": "MONDIAL X FOUNDATION FM: BLOCK PARTY",
       "type": "Street Party",
       "date": "June, 21 2026",
@@ -705,7 +729,7 @@
       "metro": "Parmentier"
     },
     {
-      "id": 33,
+      "id": 34,
       "name": "FREQUENCY DAY PARTY FÊTE DE LA MUSIQUE",
       "type": "Street Party",
       "date": "June, 20 2026",
@@ -727,7 +751,7 @@
       "metro": "Châtelet–Les Halles"
     },
     {
-      "id": 34,
+      "id": 35,
       "name": "ASCENSION: BLOCK PARTY",
       "type": "Street Party",
       "date": "June, 21 2026",
@@ -749,7 +773,7 @@
       "metro": "Jacques Bonsergent"
     },
     {
-      "id": 35,
+      "id": 36,
       "name": "FEU'PARTY X GENERATOR SPÉCIAL FÊTE DE LA MUSIQUE",
       "type": "Street Party",
       "date": "June, 21 2026",
@@ -771,7 +795,7 @@
       "metro": "Colonel Fabien"
     },
     {
-      "id": 36,
+      "id": 37,
       "name": "MONO BLOCK PARTY",
       "type": "Street Party",
       "date": "June, 21 2026",
@@ -793,7 +817,7 @@
       "metro": "République"
     },
     {
-      "id": 37,
+      "id": 38,
       "name": "FDLM AFTER PARTY NON STOP AFRO CARIBBEAN",
       "type": "Club Night",
       "date": "June, 21 2026",
@@ -815,7 +839,7 @@
       "metro": "Châtelet–Les Halles"
     },
     {
-      "id": 38,
+      "id": 39,
       "name": "FREE YOUR FUNK & ROCHE MUSIQUE : S!RENE & MORE",
       "type": "Club Night",
       "date": "June, 19 2026",
@@ -837,7 +861,7 @@
       "metro": "Gambetta"
     },
     {
-      "id": 39,
+      "id": 40,
       "name": "FÊTE DE LA MUSIQUE 2026 PT.2 [PARIS]",
       "type": "Club Night",
       "date": "June, 20 2026",
@@ -859,7 +883,7 @@
       "metro": "Châtelet–Les Halles"
     },
     {
-      "id": 40,
+      "id": 41,
       "name": "METAXU OPEN AIR FESTIVAL",
       "type": "Street Party",
       "date": "June, 21 2026",
@@ -881,7 +905,7 @@
       "metro": "Église de Pantin"
     },
     {
-      "id": 41,
+      "id": 42,
       "name": "Dans Le Parc: Block Party",
       "type": "Street Party",
       "date": "June, 21 2026",
@@ -903,7 +927,7 @@
       "metro": "Porte de Pantin"
     },
     {
-      "id": 42,
+      "id": 43,
       "name": "FDLM AFTER PARTY BY LE BUNKER",
       "type": "Club Night",
       "date": "June, 21 2026",
@@ -925,7 +949,7 @@
       "metro": ""
     },
     {
-      "id": 43,
+      "id": 44,
       "name": "VIBES OVERSEAS",
       "type": "Club Night",
       "date": "June, 19 2026",
@@ -947,7 +971,7 @@
       "metro": ""
     },
     {
-      "id": 44,
+      "id": 45,
       "name": "VIBES OVERSEAS",
       "type": "Club Night",
       "date": "June, 21 2026",
@@ -969,7 +993,7 @@
       "metro": ""
     },
     {
-      "id": 45,
+      "id": 46,
       "name": "THE PARIS MOTION - DAY PARTY",
       "type": "Club Night",
       "date": "June, 20 2026",
@@ -991,7 +1015,7 @@
       "metro": ""
     },
     {
-      "id": 46,
+      "id": 47,
       "name": "TRENDY X SIKA FDLM DAY 1",
       "type": "Club Night",
       "date": "June, 19 2026",
@@ -1013,7 +1037,7 @@
       "metro": "Gare d'Austerlitz"
     },
     {
-      "id": 47,
+      "id": 48,
       "name": "TRENDY FDLM DAY 2",
       "type": "Club Night",
       "date": "June, 20 2026",
@@ -1035,7 +1059,7 @@
       "metro": "Gare d'Austerlitz"
     },
     {
-      "id": 48,
+      "id": 49,
       "name": "TRENDY FDLM DAY 3",
       "type": "Club Night",
       "date": "June, 21 2026",
@@ -1057,7 +1081,7 @@
       "metro": "Gare d'Austerlitz"
     },
     {
-      "id": 49,
+      "id": 50,
       "name": "DANKIE SOUNDS: FETE DE LA MUSIQUE OPENING PARTY",
       "type": "Club Night",
       "date": "June, 19 2026",
@@ -1079,7 +1103,7 @@
       "metro": "Miromesnil"
     },
     {
-      "id": 50,
+      "id": 51,
       "name": "AURA X LOVE & BOWL: WITH LOVE FROM PARIS",
       "type": "Day Party",
       "date": "June, 19 2026",
@@ -1101,7 +1125,7 @@
       "metro": "Rungis – La Fraternelle"
     },
     {
-      "id": 51,
+      "id": 52,
       "name": "SLOW JAMS NATION - FETE DE LA MUSIQUE SLOW JAMS PARTY",
       "type": "Club Night",
       "date": "June, 19 2026",
@@ -1123,7 +1147,7 @@
       "metro": "Châtelet–Les Halles"
     },
     {
-      "id": 52,
+      "id": 53,
       "name": "G2G X NTABA2LONDON – LIVE SHOWCASE • FÊTE DE LA MUSIQUE",
       "type": "Club Night",
       "date": "June, 19 2026",
@@ -1145,7 +1169,7 @@
       "metro": "Place de Clichy"
     },
     {
-      "id": 53,
+      "id": 54,
       "name": "FDLM: 1WAY X CLOSE FRIENDS",
       "type": "Club Night",
       "date": "June, 19 2026",
@@ -1167,7 +1191,7 @@
       "metro": "Edgar-Quinet"
     },
     {
-      "id": 54,
+      "id": 55,
       "name": "FINAL DESTINATION: A NIGHT IN PARIS 🇫🇷 - THE FDLM WARMUP",
       "type": "Club Night",
       "date": "June, 20 2026",
@@ -1189,7 +1213,7 @@
       "metro": "Pyramides"
     },
     {
-      "id": 55,
+      "id": 56,
       "name": "AFROLIVE & ADA COLLECTIVE : FÊTE DE LA MUSIQUE",
       "type": "Club Night",
       "date": "June, 20 2026",
@@ -1211,7 +1235,7 @@
       "metro": "Châtelet–Les Halles"
     },
     {
-      "id": 56,
+      "id": 57,
       "name": "CARL COX & MAU P @ CHÂTEAU DE CHANTILLY - PARIS",
       "type": "Day Party",
       "date": "June, 20 2026",
@@ -1233,7 +1257,7 @@
       "metro": "Chantilly Gouvieux"
     },
     {
-      "id": 57,
+      "id": 58,
       "name": "DLT PARIS - FDLM SPECIAL",
       "type": "Club Night",
       "date": "June, 20 2026",
@@ -1255,7 +1279,7 @@
       "metro": "Porte de Pantin"
     },
     {
-      "id": 58,
+      "id": 59,
       "name": "FUSIÓN FDLM AT YOYO PALAIS DE TOKYO: AFROBEATS & HIP HOP",
       "type": "Club Night",
       "date": "June, 20 2026",
@@ -1277,7 +1301,7 @@
       "metro": "Iéna"
     },
     {
-      "id": 59,
+      "id": 60,
       "name": "SOCIALKIDS X RSPACE: 'FETE DE LA MUSIQUE' DAY PARTY!",
       "type": "Day Party",
       "date": "June, 20 2026",
@@ -1299,7 +1323,7 @@
       "metro": "Porte de Pantin"
     },
     {
-      "id": 60,
+      "id": 61,
       "name": "WATAVIBES FDLM PRE PARTY",
       "type": "Club Night",
       "date": "June, 19 2026",
@@ -1321,7 +1345,7 @@
       "metro": "Pigalle"
     },
     {
-      "id": 61,
+      "id": 62,
       "name": "WATAVIBES: STREET PARTY",
       "type": "Street Party",
       "date": "June, 21 2026",
@@ -1343,7 +1367,7 @@
       "metro": "Pigalle"
     },
     {
-      "id": 62,
+      "id": 63,
       "name": "ART BEYOND THE SHELL",
       "type": "Day Party",
       "date": "June, 20 2026",
@@ -1365,7 +1389,7 @@
       "metro": "To Be Confirmed"
     },
     {
-      "id": 63,
+      "id": 64,
       "name": "SPIRITUAL GANGSTA: FDLM AFTER PARTY",
       "type": "Club Night",
       "date": "June, 21 2026",
@@ -1387,7 +1411,7 @@
       "metro": "To Be Confirmed"
     },
     {
-      "id": 64,
+      "id": 65,
       "name": "SPIRITUAL GANGSTA: STREET PARTY",
       "type": "Street Party",
       "date": "June, 21 2026",
@@ -1409,7 +1433,7 @@
       "metro": "Metro"
     },
     {
-      "id": 65,
+      "id": 66,
       "name": "N'JOY: FDLM PRE PARTY",
       "type": "Club Night",
       "date": "June, 20 2026",
@@ -1431,7 +1455,7 @@
       "metro": "To Be Confirmed"
     },
     {
-      "id": 66,
+      "id": 67,
       "name": "TWIN WORLD",
       "type": "Street Party",
       "date": "June, 21 2026",
@@ -1453,7 +1477,7 @@
       "metro": "To Be Confirmed"
     },
     {
-      "id": 67,
+      "id": 68,
       "name": "N'JOY: FDLM AFTER PARTY",
       "type": "Club Night",
       "date": "June, 21 2026",
@@ -1475,7 +1499,7 @@
       "metro": "To Be Confirmed"
     },
     {
-      "id": 68,
+      "id": 69,
       "name": "GINGER WELCOME NCE",
       "type": "Boat Party",
       "date": "June, 19 2026",
@@ -1497,7 +1521,7 @@
       "metro": ""
     },
     {
-      "id": 69,
+      "id": 70,
       "name": "MOONSHINE FDLM PARTY",
       "type": "Street Party",
       "date": "June, 21 2026",
@@ -1519,7 +1543,7 @@
       "metro": "To Be Confirmed"
     },
     {
-      "id": 70,
+      "id": 71,
       "name": "FEUNAFEU X KALBAS' - FÊTE DE LA MUSIQUE 2026",
       "type": "Street Party",
       "date": "June, 21 2026",
@@ -1541,7 +1565,7 @@
       "metro": "Châtelet–Les Halles"
     },
     {
-      "id": 71,
+      "id": 72,
       "name": "ONE2MANY DAYCLUB: FETE DE LA MUSIQUE WARM UP 🇫🇷",
       "type": "Day Party",
       "date": "June, 20 2026",
@@ -1563,7 +1587,7 @@
       "metro": ""
     },
     {
-      "id": 72,
+      "id": 73,
       "name": "LET ME HOLD YOU: FDLM",
       "type": "Street Party",
       "date": "June, 21 2026",
@@ -1585,7 +1609,7 @@
       "metro": "Opéra"
     },
     {
-      "id": 73,
+      "id": 74,
       "name": "GTB WORLD X OUTLAWZ, OPEN AIR DAY PARTY",
       "type": "Club Night",
       "date": "June, 20 2026",
@@ -1607,7 +1631,7 @@
       "metro": "Parmentier"
     },
     {
-      "id": 74,
+      "id": 75,
       "name": "NUU FDLM STREET PARTY",
       "type": "Street Party",
       "date": "June, 21 2026",
@@ -1629,7 +1653,7 @@
       "metro": "Châtelet–Les Halles"
     },
     {
-      "id": 75,
+      "id": 76,
       "name": "SWEAT #3: AFRO-ELECTRONIC",
       "type": "Club Night",
       "date": "June, 19 2026",
@@ -1651,7 +1675,7 @@
       "metro": "Saint-Georges"
     },
     {
-      "id": 76,
+      "id": 77,
       "name": "SWEAT #4: ISLAND FETE",
       "type": "Club Night",
       "date": "June, 21 2026",
@@ -1673,7 +1697,7 @@
       "metro": "Saint-Georges"
     },
     {
-      "id": 77,
+      "id": 78,
       "name": "AFROTHERAPY: FDLM PRE PARTY 2026",
       "type": "Club Night",
       "date": "June, 20 2026",
@@ -1695,7 +1719,7 @@
       "metro": "Corentin Cariou"
     },
     {
-      "id": 78,
+      "id": 79,
       "name": "NICKI EVENTS",
       "type": "Day Party",
       "date": "June, 20 2026",
@@ -1717,7 +1741,7 @@
       "metro": "ZECOMelun"
     },
     {
-      "id": 79,
+      "id": 80,
       "name": "FÊTE DE LA MUSIQUE DOMINICAINE À LA CITÉ FERTILE",
       "type": "Club Night",
       "date": "June, 20 2026",
@@ -1739,7 +1763,7 @@
       "metro": "Porte d'Orléans"
     },
     {
-      "id": 80,
+      "id": 81,
       "name": "SIXTION: WELCOME2PARIS",
       "type": "Club Night",
       "date": "June, 19 2026",
@@ -1761,7 +1785,7 @@
       "metro": "Iéna"
     },
     {
-      "id": 81,
+      "id": 82,
       "name": "SIXTION: ROAD2FDLM",
       "type": "Club Night",
       "date": "June, 20 2026",
@@ -1783,7 +1807,7 @@
       "metro": "Porte de Versailles"
     },
     {
-      "id": 82,
+      "id": 83,
       "name": "SIXTION: FDLM AFTERPARTY",
       "type": "Club Night",
       "date": "June, 21 2026",
@@ -1805,7 +1829,7 @@
       "metro": "Porte de Pantin"
     },
     {
-      "id": 83,
+      "id": 84,
       "name": "HENJOYMENT X VIBESNEXTDOOR: VIBES IN PARIS",
       "type": "Club Night",
       "date": "June, 20 2026",
@@ -1827,7 +1851,7 @@
       "metro": "Etienne Marcel"
     },
     {
-      "id": 84,
+      "id": 85,
       "name": "DANE",
       "type": "Street Party",
       "date": "June, 21 2026",
@@ -1849,7 +1873,7 @@
       "metro": "République"
     },
     {
-      "id": 85,
+      "id": 86,
       "name": "AMAPIANO LAND",
       "type": "Club Night",
       "date": "June, 19 2026",
@@ -1871,7 +1895,7 @@
       "metro": "Invalides"
     },
     {
-      "id": 86,
+      "id": 87,
       "name": "WOZA LA FETE : FETE DE LA MUSIQUE SPECIAL",
       "type": "Club Night",
       "date": "June, 21 2026",
@@ -1893,7 +1917,7 @@
       "metro": "Invalides"
     },
     {
-      "id": 87,
+      "id": 88,
       "name": "THIS IS LA VIE",
       "type": "Club Night",
       "date": "June, 19 2026",
@@ -1915,7 +1939,7 @@
       "metro": "Corentin Cariou"
     },
     {
-      "id": 88,
+      "id": 89,
       "name": "THIS IS LA VIE",
       "type": "Club Night",
       "date": "June, 20 2026",
@@ -1937,7 +1961,7 @@
       "metro": "Pigalle"
     },
     {
-      "id": 89,
+      "id": 90,
       "name": "LA CLAIRIÈRE : SHIMZA, KASANGO, AMRITA",
       "type": "Club Night",
       "date": "June, 19 2026",
@@ -1959,7 +1983,7 @@
       "metro": "Porte Maillot"
     },
     {
-      "id": 90,
+      "id": 91,
       "name": "CLASSICS ONLY X CLASSICS ONLY",
       "type": "Club Night",
       "date": "June, 21 2026",
@@ -2532,7 +2556,7 @@
     }
   ],
   "meta": {
-    "event_count": 90,
+    "event_count": 91,
     "updated": "2026-06-19",
     "source": "FETEMAPPER"
   }
